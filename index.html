@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+
+  <title>Frontend Mentor | 3-column preview card component</title>
+
+  <style>
+    @font-face {
+      font-family: "BigShouldersDisplay";
+      src: url("BigShouldersDisplay-VariableFont_wght.ttf");
+    }
+
+    @font-face {
+      font-family: "LexendDeca";
+      src: url("LexendDeca-VariableFont_wght.ttf");
+    }
+
+    * {
+      margin: 0;
+    }
+
+
+    :root {
+      /* Primary */
+      --color-bright-orange: hsl(31, 77%, 52%);
+      --color-dark-cyan: hsl(184, 100%, 22%);
+      --color-very-dark-cyan: hsl(179, 100%, 13%);
+      /* Neutral */
+      --color-transparent-white: hsla(0, 0%, 100%, 0.75);
+      --color-very-light-gray: hsl(0, 0%, 95%);
+
+      --fs-400: 1rem;
+      --fs-600: 2.56rem;
+
+      /* Assuming default font size is 16px */
+      /* Reference design seems to have "standard" font size of 15px; */
+      font-size: calc(1rem * 0.9375);
+      font-weight: 500;
+
+      font-family: 'LexendDeca', sans-serif;
+      line-height: 1.75;
+
+      background-color: var(--color-very-light-gray);
+    }
+
+    body {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+    }
+
+    main {
+      /* fluid margins system for the main content of a page I worked on
+      See : https://gist.github.com/tburette/1b4375bdde8a2c6e8956c62094cde053#file-fluid-main-html */
+
+      margin-inline: max(1.5rem, 10vw - 2rem);
+      max-width: 57.5rem;
+      margin-block: 5.625rem;
+
+      color: var(--color-very-light-gray);
+    }
+
+    .card {
+      padding: 3em;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      row-gap: 1rem;
+      /* in case no modifier is used (no .card--suv,..) */
+      background-color: black;
+    }
+
+    /* round the borders but only on the edges
+     the border-radius shorthand is not the most readable thing
+     not sure having four lines like border-top-left-radius would be better..*/
+    main>.card:first-of-type {
+      border-radius: .5rem .5rem 0 0;
+    }
+
+    main>.card:last-of-type {
+      border-radius: 0 0 .5rem .5rem;
+    }
+
+    .card__title {
+      font-family: 'BigShouldersDisplay';
+      font-weight: 700;
+      font-size: var(--fs-600);
+      text-transform: uppercase;
+    }
+
+    .card__description {
+      opacity: 0.7;
+    }
+
+    .card__button {
+      display: inline-block;
+
+      background-color: var(--color-very-light-gray);
+
+      padding: .6rem 2rem;
+      margin-top: 1rem;
+      border-radius: 100vw;
+
+      /* line around the button when hover/focus */
+      border: .2rem solid var(--color-very-light-gray);
+
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .card::before {
+      display: block;
+    }
+
+    /* It would probably be better to add the image directly in the html */
+
+    /* in case .card is used without modifier (no .card--xxx) */
+    .card::before {
+      content: "";
+      background-color: hsl(0, 0%, 31%);
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 100vw;
+    }
+
+    .card--sedan::before {
+      content: url(/images/icon-sedans.svg);
+      /* the modifier must undo block declarations
+      How to avoid duplication in each modifier? */
+      background-color: unset;
+      width: auto;
+      height: auto;
+    }
+
+    .card--suv::before {
+      content: url(/images/icon-suvs.svg);
+      background-color: unset;
+      width: auto;
+      height: auto;
+    }
+
+    .card--luxury::before {
+      content: url(/images/icon-luxury.svg);
+      background-color: unset;
+      width: auto;
+      height: auto;
+    }
+
+
+    .card--sedan {
+      background-color: var(--color-bright-orange);
+    }
+
+    .card--suv {
+      background-color: var(--color-dark-cyan);
+    }
+
+    .card--luxury {
+      background-color: var(--color-very-dark-cyan);
+    }
+
+    .card--sedan .card__button {
+      color: var(--color-bright-orange);
+    }
+
+    .card--suv .card__button {
+      color: var(--color-dark-cyan);
+    }
+
+    .card--luxury .card__button {
+      color: var(--color-very-dark-cyan);
+    }
+
+    .card__button:hover,
+    .card__button:focus {
+      background-color: transparent;
+      color: var(--color-very-light-gray);
+      /* border-color: var(--color-very-light-gray); */
+    }
+
+    @media (min-width: 850px) {
+      main {
+        display: flex;
+      }
+
+      section {
+        /* Needed so that all sections have exactly the same width */
+        width: 100%;
+      }
+
+      /* round the borders but only on the edges*/
+      main>.card:first-of-type {
+        border-radius: .5rem 0 0 .5rem;
+      }
+
+      main>.card:last-of-type {
+        border-radius: 0 .5rem .5rem 0;
+      }
+
+      .card__description {
+        margin-bottom: 3rem;
+      }
+
+      .card__button {
+        /* margin auto in flex : pushes everything after
+        in this case push the button down */
+        margin-top: auto;
+      }
+
+    }
+
+
+    .attribution {
+      font-size: 11px;
+      text-align: center;
+      /* Hack to make sure the attribution is always below the content
+      and never to its right.
+      Could happen on wide screen because of the body { display: flex}; */
+      width: 100%;
+    }
+
+    .attribution a {
+      color: hsl(228, 45%, 44%);
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+    <section class="card card--sedan">
+      <h2 class="card__title">Sedans</h2>
+      <p class="card__description">
+        Choose a sedan for its affordability and excellent fuel economy. Ideal for cruising in the city
+        or on your next road trip.
+      </p>
+      <a href="javascript:void(0)" class="card__button">Learn More</a>
+    </section>
+    <section class="card card--suv">
+      <h2 class="card__title">SUVs</h2>
+      <p class="card__description">
+        Take an SUV for its spacious interior, power, and versatility. Perfect for your next family vacation
+        and off-road adventures.
+      </p>
+      <a href="javascript:void(0)" class="card__button">Learn More</a>
+    </section>
+    <section class="card card--luxury">
+      <h2 class="card__title">Luxury</h2>
+      <p class="card__description">
+        Cruise in the best car brands without the bloated prices. Enjoy the enhanced comfort of a luxury
+        rental and arrive in style.
+      </p>
+      <a href="javascript:void(0)" class="card__button">Learn More</a>
+    </section>
+  </main>
+  <footer class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+    Coded by <a href="#">Thomas Burette</a>.
+  </footer>
+</body>
+
+</html>
